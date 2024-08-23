@@ -1,8 +1,3 @@
-# movie_online_booking_ticket
-Fullstack movie ticket booking website using Spring Boot, Spring Security, Spring Data JPA, ReactJS, Websocket
-=======
-# Movie Online Booking Ticket
-
 ## Overview
 
 This project is a movie ticket booking system that allows users to browse movies, book tickets, and view their bookings. The system is built with a React frontend and a Spring Boot backend.

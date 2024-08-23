@@ -1,0 +1,53 @@
+.booking-page {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.seat-selection {
+    flex: 1;
+}
+
+.movie-info {
+    width: 300px;
+    margin-left: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.seat-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.seat-row {
+    display: flex;
+    margin: 5px 0;
+}
+
+.seat {
+    width: 30px;
+    height: 30px;
+    margin: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.available {
+    background-color: #fff;
+}
+
+.booked {
+    background-color: rgb(251 146 60);
+    color: #fff;
+}
+
+.selected {
+    background-color: rgb(37 99 235);
+    color: #fff;
+}

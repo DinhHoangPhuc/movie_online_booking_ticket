@@ -5,9 +5,9 @@ This project is a movie ticket booking system that allows users to browse movies
 ## Features
 
 - **User Registration and Authentication**: Secure user registration and login using JWT tokens.
-- **Movie Browsing**: Browse and search for movies.
+- **Movie Browsing**: Browse movies.
 - **Ticket Booking**: Book tickets for movies.
-- **Booking History**: View and your bookings.
+- **Booking History**: View bookings history.
 
 ## How to Run This
 

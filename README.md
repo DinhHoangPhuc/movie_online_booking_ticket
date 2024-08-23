@@ -1,6 +1,7 @@
 ## Overview
 
 This project is a movie ticket booking system that allows users to browse movies, book tickets, and view their bookings. The system is built with a React frontend and a Spring Boot backend.
+![Demo](demo.gif)
 
 ## Features
 

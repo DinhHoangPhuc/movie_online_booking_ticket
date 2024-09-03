@@ -23,8 +23,8 @@ public class UniqueValidator implements ConstraintValidator<Unique, String> {
         }
 
         return switch (fieldType) {
-            case EMAIL -> userRepo.findByEmail(value).isEmpty();
-            case SDT -> userRepo.findByPhoneNumber(value).isEmpty();
+            case EMAIL -> userRepo.findItemByEmail(value).isEmpty();
+            case SDT -> userRepo.findItemByPhoneNumber(value).isEmpty();
         };
 
     }

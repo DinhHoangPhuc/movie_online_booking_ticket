@@ -19,15 +19,19 @@ public class ActorController {
 
     @Autowired
     private ActorService actorService;
-    
-    @GetMapping("/actors/{actorId}")
-    public ResponseEntity<Actor> getActorById(@PathVariable int actorId) {
-        return actorService.getActorById(actorId);
-    }
 
-    @GetMapping("/actors/{actorId}/movies")
-    public ResponseEntity<List<Movie>> getMoviesByActorId(@PathVariable int actorId) {
-        return actorService.getMoviesByActorId(actorId);
-    }
+//    @GetMapping("/actors/{actorId}")
+//    public ResponseEntity<Actor> getActorById(@PathVariable int actorId) {
+//        return actorService.getActorById(actorId);
+//    }
+//
+//    @GetMapping("/actors/{actorId}/movies")
+//    public ResponseEntity<List<Movie>> getMoviesByActorId(@PathVariable int actorId) {
+//        return actorService.getMoviesByActorId(actorId);
+//    }
 
+    @GetMapping("/actors")
+    public ResponseEntity<List<Actor>> getActors() {
+        return ResponseEntity.ok(actorService.getActors());
+    }
 }

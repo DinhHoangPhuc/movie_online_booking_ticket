@@ -6,56 +6,36 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
-@Entity
-@Table(name = "Users")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Document("users")
 public class User {
 
-    public User() {
-    }
+    @MongoId
+    private ObjectId id;
 
-    @Id
-    @Column(name = "UserID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "email")
     private String email;
 
-    @Column(name = "password")
     private String password;
 
-    @Column(name = "phonenumber")
     private String phoneNumber;
 
-    @Column(name = "dateofbirth")
     private Date dateOfBirth;
 
-    @OneToMany(mappedBy = "user")
     @JsonManagedReference
     private List<Booking> bookings;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_authorities",
-                joinColumns = @JoinColumn(name = "userid"),
-                inverseJoinColumns = @JoinColumn(name = "authorityid"))
     private Set<Authority> authorities;
 }

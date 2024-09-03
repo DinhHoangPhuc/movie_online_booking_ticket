@@ -18,7 +18,7 @@ public class SecurityUserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = userRepository.findByEmail(username);
+        var user = userRepository.findItemByEmail(username);
 
         return user.map(SecurityUser::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));

@@ -30,6 +30,10 @@ public class Actor {
 
     private String Picture;
 
+    private int CountryID;
+
+    private List<Integer> Movies;
+
 //    @JsonBackReference
 //    private Country country;
 //

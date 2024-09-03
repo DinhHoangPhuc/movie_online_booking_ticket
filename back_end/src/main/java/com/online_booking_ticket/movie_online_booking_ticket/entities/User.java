@@ -11,31 +11,31 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.bson.types.ObjectId;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document("users")
+@Document("Users")
 public class User {
 
-    @MongoId
-    private ObjectId id;
+    @Id
+    private int id;
 
-    private String name;
+    private String Name;
 
-    private String email;
+    private String Email;
 
-    private String password;
+    private String Password;
 
-    private String phoneNumber;
+    private String PhoneNumber;
 
-    private Date dateOfBirth;
+    private Date DateOfBirth;
 
-    @JsonManagedReference
-    private List<Booking> bookings;
+//    @JsonManagedReference
+//    private List<Booking> bookings;
 
-    private Set<Authority> authorities;
+    private List<Integer> Authorities;
 }

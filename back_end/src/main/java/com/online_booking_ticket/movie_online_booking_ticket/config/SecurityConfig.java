@@ -44,19 +44,19 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-//            .authorizeHttpRequests((authorize) -> {
-//                authorize.requestMatchers( "/actors/**").permitAll();
-//                authorize.requestMatchers("/directors/**").permitAll();
-//                authorize.requestMatchers("/movies/**").permitAll();
-//                authorize.requestMatchers( "/showtimes/**").permitAll();
-//                authorize.requestMatchers("ws/**").permitAll();
-//                authorize.requestMatchers("/app/seats").permitAll();
-//                authorize.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
-//                authorize.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
-//                authorize.requestMatchers("/error").permitAll();
-//                authorize.anyRequest().authenticated();
-//            })
-            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+            .authorizeHttpRequests((authorize) -> {
+                authorize.requestMatchers( "/actors/**").permitAll();
+                authorize.requestMatchers("/directors/**").permitAll();
+                authorize.requestMatchers("/movies/**").permitAll();
+                authorize.requestMatchers( "/showtimes/**").permitAll();
+                authorize.requestMatchers("ws/**").permitAll();
+                authorize.requestMatchers("/app/seats").permitAll();
+                authorize.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
+                authorize.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
+                authorize.requestMatchers("/error").permitAll();
+                authorize.anyRequest().authenticated();
+            })
+//            .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .oauth2ResourceServer(oauth2 -> oauth2.bearerTokenResolver(bearerTokenResolver()).jwt(Customizer.withDefaults()))
             .httpBasic(Customizer.withDefaults())

@@ -11,7 +11,7 @@ import com.online_booking_ticket.movie_online_booking_ticket.entities.User;
 @Repository
 public interface UserRepo extends MongoRepository<User, String> {
 
-    @Query("{email:'?0'}")
+    @Query("{Email:'?0'}")
     Optional<User> findItemByEmail(String email);
 
     Optional<User> findItemByPhoneNumber(String value);

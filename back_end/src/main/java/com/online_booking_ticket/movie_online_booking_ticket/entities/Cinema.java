@@ -2,27 +2,28 @@ package com.online_booking_ticket.movie_online_booking_ticket.entities;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Document("Cinemas")
 public class Cinema {
 
-        private int id;
+    @Id
+    private int id;
 
-        private String name;
+    private String Mame;
 
-        private String location;
+    private String Location;
 
-        private String totalScreens;
+    private String TotalScreens;
 
-       @JsonManagedReference
-        private List<Screen> screens;
+    private List<Integer> Screens;
 }

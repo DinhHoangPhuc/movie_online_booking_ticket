@@ -1,50 +1,47 @@
 package com.online_booking_ticket.movie_online_booking_ticket.entities;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Document("Movies")
 public class Movie {
 
+    @Id
     private int id;
 
-    private String title;
+    private String Title;
 
-    private int duration;
+    private int Duration;
 
-    private Date releaseDate;
+    private Date ReleaseDate;
 
-    private double rating;
+    private double Rating;
 
-    private String description;
+    private String Description;
 
-    private String posterURL;
+    private String PosterURL;
 
-    private String trailerURL;
+    private String TrailerURL;
 
-    @JsonBackReference
-    private Director director;
+    private int DirectorID;
 
-    @JsonBackReference
-    private Country country;
+    private int CountryID;
 
-    @JsonManagedReference
-    private List<Showtime> showTimes;
+//    @JsonManagedReference
+//    private List<Showtime> showTimes;
 
-    @JsonManagedReference
-    private List<Genre> genres;
+    private List<Integer> Genres;
 
-    @JsonManagedReference
-    private List<Actor> actors;
+    private List<Integer> Actors;
 }

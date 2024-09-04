@@ -2,13 +2,14 @@ package com.online_booking_ticket.movie_online_booking_ticket.repositories;
 
 import java.util.List;
 
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import com.online_booking_ticket.movie_online_booking_ticket.entities.Director;
 import com.online_booking_ticket.movie_online_booking_ticket.entities.Movie;
 
 @Repository
-public interface MovieRepo{
+public interface MovieRepo extends MongoRepository<Movie, Integer> {
     
     // @Query("SELECT DISTINCT m FROM Movie m JOIN m.showTimes st WHERE st.startTime IS NOT NULL")
     // Page<Movie> findAllWithShowTimes(Pageable pageable);

@@ -3,32 +3,30 @@ package com.online_booking_ticket.movie_online_booking_ticket.entities;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Document("Showtimes")
 public class Showtime {
 
+    @Id
     private int id;
 
-    @JsonBackReference
-    private Movie movie;
+    private int MovieID;
 
-    @JsonBackReference
-    private Screen screen;
+    private int ScreenID;
 
-    @JsonManagedReference
-    private List<Booking> bookings;
+    private List<Integer> Bookings;
 
-    private Date startTime;
+    private Date StartTime;
 
-    private Date endTime;
+    private Date EndTime;
 }

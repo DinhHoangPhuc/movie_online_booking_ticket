@@ -1,35 +1,33 @@
 package com.online_booking_ticket.movie_online_booking_ticket.entities;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Document("Directors")
 public class Director {
 
+    @Id
     private int id;
 
-    private String name;
+    private String Name;
 
-    private Date birthDate;
+    private Date BirthDate;
 
-    private String picture;
+    private String Picture;
 
-    @JsonBackReference
-    private Country country;
+    private int CountryID;
 
-    @JsonManagedReference
-    private List<Movie> movies;
+    private List<Integer> movies;
 
-    // getters and setters
 }

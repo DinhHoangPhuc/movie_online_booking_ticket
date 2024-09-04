@@ -9,10 +9,11 @@ import org.springframework.stereotype.Repository;
 import com.online_booking_ticket.movie_online_booking_ticket.entities.User;
 
 @Repository
-public interface UserRepo extends MongoRepository<User, String> {
+public interface UserRepo extends MongoRepository<User, Integer> {
 
-    @Query("{Email:'?0'}")
-    Optional<User> findItemByEmail(String email);
+    @Query("{'Email':?0}")
+    Optional<User> findItemByEmail(String Email);
 
+    @Query("{'PhoneNumber':?0}")
     Optional<User> findItemByPhoneNumber(String value);
 }

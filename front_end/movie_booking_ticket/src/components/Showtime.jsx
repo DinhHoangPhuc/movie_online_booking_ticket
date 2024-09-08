@@ -43,7 +43,7 @@ function Showtimes({ movie }) {
   const handleBookingClick = (showtime, cinema, startTimeString, startDate) => {
     if (isLoggedIn) {
       // User is logged in, navigate to booking page
-      navigate(`/booking/${showtime.id}`, { state: { movie, cinema, startTimeString, startDate } });
+      navigate(`/booking/${showtime}`, { state: { movie, cinema, startTimeString, startDate } });
     } else {
       // User is not logged in, redirect to login page
       navigate('/login');

@@ -12,8 +12,8 @@ function Showtimes({ movie }) {
   useEffect(() => {
     const fetchCinemas = async () => {
       const cinemaData = await Promise.all(
-        movie.showTimes.map(showtime =>
-          axios.get(`/showtimes/${showtime.id}/cinema`).then(response => response.data)
+        movie.showtimes.map(showtime => {
+          return axios.get(`/showtimes/${showtime}/cinema`).then(response => response.data)}
         )
       );
       setCinemas(cinemaData);
@@ -21,6 +21,24 @@ function Showtimes({ movie }) {
 
     fetchCinemas();
   }, [movie]);
+
+  // useEffect(() => {
+  //   const fetchCinemas = async () => {
+  //     for (const showtime of movie.showtimes) {
+  //       const response = await axios.get(`/showtimes/${showtime}/cinema`);
+  //       setCinemas(prevCinemas => [...prevCinemas, response.data]);
+  //       // console.log(response.data)
+  //     }
+  //   };
+
+  //   setCinemas([]);
+  //   fetchCinemas();
+  // }, [movie]);
+
+  // console.log("Cinemas " + cinemas.length)
+  // console.log("Showtimes after map " + movie.showtimes)
+  // console.log(cinemas[0])
+  // console.log(cinemas[1])
 
   const handleBookingClick = (showtime, cinema, startTimeString, startDate) => {
     if (isLoggedIn) {
@@ -34,9 +52,9 @@ function Showtimes({ movie }) {
 
   return (
     <div>
-      {movie.showTimes.map((showtime, index) => {
-        const startDate = new Date(showtime.startTime);
+      {movie.showtimes.map((showtime, index) => {
         const cinema = cinemas[index] || {};
+        const startDate = new Date(cinema.startTime);
 
         const startTimeString = startDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
@@ -44,6 +62,7 @@ function Showtimes({ movie }) {
           <div key={index} className="flex flex-row justify-between border-b border-gray-200 py-2 px-5">
             <span>{cinema.name}</span>
             <span>{startDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+            
             <span
               className='p-2 border border-orange-300 hover:bg-orange-400 rounded-xl cursor-pointer'
               onClick={() => handleBookingClick(showtime, cinema, startTimeString, startDate)}

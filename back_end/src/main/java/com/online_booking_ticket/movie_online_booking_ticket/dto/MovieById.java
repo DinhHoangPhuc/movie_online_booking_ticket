@@ -1,23 +1,21 @@
-package com.online_booking_ticket.movie_online_booking_ticket.entities;
+package com.online_booking_ticket.movie_online_booking_ticket.dto;
 
-import java.util.Date;
-import java.util.List;
-
+import com.online_booking_ticket.movie_online_booking_ticket.entities.Actor;
+import com.online_booking_ticket.movie_online_booking_ticket.entities.Genre;
+import com.online_booking_ticket.movie_online_booking_ticket.entities.Showtime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document("Movies")
-public class Movie {
-
-    @Id
+public class MovieById {
     private int id;
 
     private String Title;
@@ -40,7 +38,7 @@ public class Movie {
 
     private List<Integer> Showtimes;
 
-    private List<Integer> Genres;
+    private List<Genre> Genres;
 
-    private List<Integer> Actors;
+    private List<Actor> Actors;
 }

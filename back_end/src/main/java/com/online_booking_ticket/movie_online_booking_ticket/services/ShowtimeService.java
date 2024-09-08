@@ -3,6 +3,7 @@ package com.online_booking_ticket.movie_online_booking_ticket.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.online_booking_ticket.movie_online_booking_ticket.dto.CinemaByShowtimeId;
 import com.online_booking_ticket.movie_online_booking_ticket.repositories.CinemaRepo;
 import com.online_booking_ticket.movie_online_booking_ticket.repositories.ScreenRepo;
 import com.online_booking_ticket.movie_online_booking_ticket.repositories.SeatRepo;
@@ -43,12 +44,13 @@ public class ShowtimeService{
     //     }
     // }
 
-    public ResponseEntity<Cinema> findCinemasByShowtime(int showtimeId) {
+    public ResponseEntity<CinemaByShowtimeId> findCinemasByShowtime(int showtimeId) {
         try {
             Showtime showtime = showtimeRepository.findById(showtimeId).get();
             Screen screen = screenRepo.findById(showtime.getScreenID()).get();
             Cinema cinema = cinemaRepo.findById(screen.getCinemaID()).get();
-            return new ResponseEntity<>(cinema, HttpStatus.OK);
+            CinemaByShowtimeId cinemaByShowtimeId = new CinemaByShowtimeId(cinema, showtime.getStartTime());
+            return new ResponseEntity<>(cinemaByShowtimeId, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

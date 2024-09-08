@@ -2,6 +2,7 @@ package com.online_booking_ticket.movie_online_booking_ticket.controllers;
 
 import java.util.List;
 
+import com.online_booking_ticket.movie_online_booking_ticket.dto.MovieById;
 import com.online_booking_ticket.movie_online_booking_ticket.dto.MovieWithShowtime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class MovieController {
     }
 
     @GetMapping("/movies/{id}")
-    public ResponseEntity<Movie> getMovieById(@PathVariable int id) {
+    public ResponseEntity<MovieById> getMovieById(@PathVariable int id) {
         // Movie movie = movieService.getMovieById(id).getBody();
         // List<Showtime> showtimes = movie.getShowTimes();
         // for (Showtime showtime : showtimes) {

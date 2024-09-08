@@ -19,7 +19,7 @@ public class Cinema {
     @Id
     private int id;
 
-    private String Mame;
+    private String Name;
 
     private String Location;
 

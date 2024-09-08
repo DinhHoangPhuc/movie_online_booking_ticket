@@ -92,7 +92,7 @@ public class BookingService {
         ticketInformation.setTicketId(booking.getId());
         movieRepo.findById(showtimeRepo.findById(booking.getShowtimeID()).get().getMovieID()).ifPresent(movie -> ticketInformation.setMovieName(movie.getTitle()));
 //        ticketInformation.setMovieName(booking.getShowtime().getMovie().getTitle());
-        cinemaRepo.findById(showtimeRepo.findById(booking.getShowtimeID()).get().getScreenID()).ifPresent(cinema -> ticketInformation.setCinemaName(cinema.getMame()));
+        cinemaRepo.findById(showtimeRepo.findById(booking.getShowtimeID()).get().getScreenID()).ifPresent(cinema -> ticketInformation.setCinemaName(cinema.getName()));
 //        ticketInformation.setCinemaName(booking.getShowtime().getScreen().getCinema().getName());
         screenRepo.findById(showtimeRepo.findById(booking.getShowtimeID()).get().getScreenID()).ifPresent(screen -> ticketInformation.setScreenNumber(screen.getId()));
 //        ticketInformation.setScreenNumber(booking.getShowtime().getScreen().getId());

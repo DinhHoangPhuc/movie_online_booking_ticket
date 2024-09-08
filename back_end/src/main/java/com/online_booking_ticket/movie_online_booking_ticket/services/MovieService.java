@@ -1,9 +1,15 @@
 package com.online_booking_ticket.movie_online_booking_ticket.services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.online_booking_ticket.movie_online_booking_ticket.dto.MovieById;
 import com.online_booking_ticket.movie_online_booking_ticket.dto.MovieWithShowtime;
+import com.online_booking_ticket.movie_online_booking_ticket.entities.Actor;
+import com.online_booking_ticket.movie_online_booking_ticket.entities.Genre;
+import com.online_booking_ticket.movie_online_booking_ticket.repositories.ActorRepo;
 import com.online_booking_ticket.movie_online_booking_ticket.repositories.DirectorRepo;
+import com.online_booking_ticket.movie_online_booking_ticket.repositories.GenreRepo;
 import com.online_booking_ticket.movie_online_booking_ticket.repositories.MovieRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +27,12 @@ public class MovieService {
 
     @Autowired
     DirectorRepo directorRepo;
+
+    @Autowired
+    ActorRepo actorRepo;
+
+    @Autowired
+    GenreRepo genreRepo;
 
     public ResponseEntity<List<Movie>> getMovies() {
         try {
@@ -63,9 +75,34 @@ public class MovieService {
         }
     }
 
-    public ResponseEntity<Movie> getMovieById(int id) {
+    public ResponseEntity<MovieById> getMovieById(int id) {
         try {
-            return new ResponseEntity<Movie>(movieRepo.findById(id).get(), HttpStatus.OK);
+            Movie movie = movieRepo.findById(id).get();
+            List<Actor> actors = movie.getActors()
+                    .stream()
+                    .map(actorId -> actorRepo.findById(actorId).get())
+                    .collect(Collectors.toList());
+            List<Genre> genres = movie.getGenres()
+                    .stream()
+                    .map(genreId -> genreRepo.findById(genreId).get())
+                    .collect(Collectors.toList());
+            MovieById movieById = new MovieById(
+                    movie.getId(),
+                    movie.getTitle(),
+                    movie.getDuration(),
+                    movie.getReleaseDate(),
+                    movie.getRating(),
+                    movie.getDescription(),
+                    movie.getPosterURL(),
+                    movie.getTrailerURL(),
+                    movie.getDirectorID(),
+                    movie.getCountryID(),
+                    movie.getShowtimes(),
+                    genres,
+                    actors
+            );
+            return new ResponseEntity<MovieById>(movieById, HttpStatus.OK);
+//            return new ResponseEntity<Movie>(movieRepo.findById(id).get(), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             // return "Error occurred: " + e.getMessage();

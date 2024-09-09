@@ -19,10 +19,9 @@ public class Payment {
 
     @Id
     private int id;
-
     private Date PaymentDate;
     private BigDecimal Amount;
     private String PaymentMethod;
-    private Booking booking;
+    private int BookingID;
 
 }

@@ -27,8 +27,7 @@ public class Screen {
 
     private int TotalColumns;
 
-//    @JsonManagedReference
-//    private List<Showtime> showTimes;
+    private List<Integer> Showtimes;
 
     private List<Integer> Seats;
 }

@@ -3,6 +3,7 @@ package com.online_booking_ticket.movie_online_booking_ticket.controllers;
 import java.util.List;
 
 import com.online_booking_ticket.movie_online_booking_ticket.dto.CinemaByShowtimeId;
+import com.online_booking_ticket.movie_online_booking_ticket.dto.ScreenByShowtime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,7 +45,7 @@ public class ShowtimeController {
     }
 
     @GetMapping("/showtimes/{showtimeId}/screen")
-    public ResponseEntity<Screen> getScreenByShowtimeId(@PathVariable int showtimeId) {
+    public ResponseEntity<ScreenByShowtime> getScreenByShowtimeId(@PathVariable int showtimeId) {
         return showtimeService.findScreenByShowtime(showtimeId);
     }
 }

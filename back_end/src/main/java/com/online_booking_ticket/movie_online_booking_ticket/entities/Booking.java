@@ -24,5 +24,5 @@ public class Booking {
     private int UserID;
     private int ShowtimeID;
     private int SeatID;
-    private Payment Payment;
+//    private int PaymentID;
 }

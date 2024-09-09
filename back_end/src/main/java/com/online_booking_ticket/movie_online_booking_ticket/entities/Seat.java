@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 @Getter
 @Setter
@@ -19,11 +20,12 @@ public class Seat {
 
     private int RowNumber;
 
+    @Field("ColumnNumber")
     private int SeatNumber;
 
-    private int Price;
+    private int price;
 
-    private String Status;
+    private String status;
 
     private int ScreenID;
 

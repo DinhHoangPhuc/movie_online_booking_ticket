@@ -3,20 +3,16 @@ package com.online_booking_ticket.movie_online_booking_ticket.services;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.online_booking_ticket.movie_online_booking_ticket.dto.BookingInShowtimes;
 import com.online_booking_ticket.movie_online_booking_ticket.dto.CinemaByShowtimeId;
-import com.online_booking_ticket.movie_online_booking_ticket.repositories.CinemaRepo;
-import com.online_booking_ticket.movie_online_booking_ticket.repositories.ScreenRepo;
-import com.online_booking_ticket.movie_online_booking_ticket.repositories.SeatRepo;
-import com.online_booking_ticket.movie_online_booking_ticket.repositories.ShowtimeRepo;
+import com.online_booking_ticket.movie_online_booking_ticket.dto.ScreenByShowtime;
+import com.online_booking_ticket.movie_online_booking_ticket.dto.ShowtimeInScreenByShowtime;
+import com.online_booking_ticket.movie_online_booking_ticket.entities.*;
+import com.online_booking_ticket.movie_online_booking_ticket.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import com.online_booking_ticket.movie_online_booking_ticket.entities.Cinema;
-import com.online_booking_ticket.movie_online_booking_ticket.entities.Screen;
-import com.online_booking_ticket.movie_online_booking_ticket.entities.Seat;
-import com.online_booking_ticket.movie_online_booking_ticket.entities.Showtime;
 
 @Service
 public class ShowtimeService{
@@ -31,6 +27,9 @@ public class ShowtimeService{
 
     @Autowired
     private CinemaRepo cinemaRepo;
+
+    @Autowired
+    private BookingRepo bookingRepo;
 
     // public ResponseEntity<Showtime> findCinemasByShowtime(int showtimeId) {
     //     try {
@@ -86,11 +85,47 @@ public class ShowtimeService{
         }
     }
 
-    public ResponseEntity<Screen> findScreenByShowtime(int showtimeId) {
+    public ResponseEntity<ScreenByShowtime> findScreenByShowtime(int showtimeId) {
         try {
             Showtime showtime = showtimeRepository.findById(showtimeId).get();
             Screen screen = screenRepo.findById(showtime.getScreenID()).get();
-            return new ResponseEntity<>(screen, HttpStatus.OK);
+
+            ScreenByShowtime screenByShowtime = new ScreenByShowtime();
+            screenByShowtime.setId(screen.getId());
+            screenByShowtime.setScreenNumber(screen.getScreenNumber());
+            screenByShowtime.setTotalRows(screen.getTotalRows());
+            screenByShowtime.setTotalColumns(screen.getTotalColumns());
+
+            List<ShowtimeInScreenByShowtime> showtimes = new ArrayList<>();
+            screen.getShowtimes().forEach(showtimeIdInScreen -> {
+                Showtime showtimeInScreen = showtimeRepository.findById(showtimeIdInScreen).get();
+                ShowtimeInScreenByShowtime showtimeInScreenByShowtime = new ShowtimeInScreenByShowtime();
+                showtimeInScreenByShowtime.setId(showtimeInScreen.getId());
+                List<BookingInShowtimes> bookings = new ArrayList<>();
+                showtimeInScreen.getBookings().forEach(booking -> {
+                    Booking bookingInShowtime = bookingRepo.findById(booking).get();
+                    BookingInShowtimes bookingInShowtimes = new BookingInShowtimes();
+                    bookingInShowtimes.setId(bookingInShowtime.getId());
+                    bookingInShowtimes.setBookingDate(bookingInShowtime.getBookingDate());
+                    bookingInShowtimes.setTotalAmount(bookingInShowtime.getTotalAmount());
+                    bookingInShowtimes.setSeat(seatRepo.findById(bookingInShowtime.getSeatID()).get());
+                    bookings.add(bookingInShowtimes);
+                });
+                showtimeInScreenByShowtime.setBookings(bookings);
+                showtimeInScreenByShowtime.setStartTime(showtimeInScreen.getStartTime());
+                showtimeInScreenByShowtime.setEndTime(showtimeInScreen.getEndTime());
+                showtimes.add(showtimeInScreenByShowtime);
+            });
+            screenByShowtime.setShowtimes(showtimes);
+
+            List<Seat> seats = new ArrayList<>();
+            screen.getSeats().forEach(seatId -> {
+                Seat seat = seatRepo.findById(seatId).get();
+                seats.add(seat);
+            });
+            screenByShowtime.setSeats(seats);
+
+            return new ResponseEntity<>(screenByShowtime, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

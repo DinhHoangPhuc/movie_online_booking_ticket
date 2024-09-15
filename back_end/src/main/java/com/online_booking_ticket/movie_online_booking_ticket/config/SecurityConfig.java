@@ -51,6 +51,8 @@ public class SecurityConfig {
                 authorize.requestMatchers( "/showtimes/**").permitAll();
                 authorize.requestMatchers("ws/**").permitAll();
                 authorize.requestMatchers("/app/seats").permitAll();
+                authorize.requestMatchers(HttpMethod.GET, "/customers").permitAll();
+                authorize.requestMatchers(HttpMethod.POST, "/customers").permitAll();
                 authorize.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
                 authorize.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
                 authorize.requestMatchers("/error").permitAll();

@@ -1,4 +1,4 @@
-package com.online_booking_ticket.movie_online_booking_ticket.service;
+package com.online_booking_ticket.movie_online_booking_ticket.services;
 
 import com.online_booking_ticket.movie_online_booking_ticket.dto.GenreRequest;
 import com.online_booking_ticket.movie_online_booking_ticket.dto.GenreResponse;

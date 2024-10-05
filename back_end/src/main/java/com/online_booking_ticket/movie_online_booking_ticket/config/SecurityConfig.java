@@ -59,6 +59,7 @@ public class SecurityConfig {
                 authorize.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
                 authorize.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
                 authorize.requestMatchers(HttpMethod.POST, ControllerPath.GENRE_CONTROLLER).permitAll();
+                authorize.requestMatchers(HttpMethod.POST, ControllerPath.COUNTRY_CONTROLLER).permitAll();
                 authorize.requestMatchers("/error").permitAll();
                 authorize.anyRequest().authenticated();
             })

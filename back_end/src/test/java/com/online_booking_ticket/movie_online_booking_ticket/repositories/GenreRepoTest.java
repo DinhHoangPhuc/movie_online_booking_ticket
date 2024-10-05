@@ -1,4 +1,4 @@
-package com.online_booking_ticket.movie_online_booking_ticket.repository;
+package com.online_booking_ticket.movie_online_booking_ticket.repositories;
 
 import com.online_booking_ticket.movie_online_booking_ticket.config.MongoTestConfig;
 import com.online_booking_ticket.movie_online_booking_ticket.entities.Genre;

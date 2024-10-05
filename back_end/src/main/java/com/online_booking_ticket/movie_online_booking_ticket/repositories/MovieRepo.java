@@ -11,7 +11,7 @@ import com.online_booking_ticket.movie_online_booking_ticket.entities.Director;
 import com.online_booking_ticket.movie_online_booking_ticket.entities.Movie;
 
 @Repository
-public interface MovieRepo extends MongoRepository<Movie, Integer> {
+public interface MovieRepo extends MongoRepository<Movie, String> {
     
 //     @Query("SELECT DISTINCT m FROM Movie m JOIN m.showTimes st WHERE st.startTime IS NOT NULL")
 //     Page<Movie> findAllWithShowTimes(Pageable pageable);

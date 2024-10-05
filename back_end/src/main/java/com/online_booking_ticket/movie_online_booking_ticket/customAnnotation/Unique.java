@@ -19,6 +19,6 @@ public @interface Unique {
     FieldType fieldType();
 
     public enum FieldType {
-        EMAIL, SDT
+        EMAIL
     }
 }

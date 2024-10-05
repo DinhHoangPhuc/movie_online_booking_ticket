@@ -12,7 +12,7 @@ import java.util.Optional;
 
 
 @Repository
-public interface BookingRepo extends MongoRepository<Booking, Integer> {
+public interface BookingRepo extends MongoRepository<Booking, String> {
 
 //    @Query("SELECT b FROM Booking b WHERE b.user = :user")
 //    Optional<List<Booking>> findByUser(@Param("user") User user);

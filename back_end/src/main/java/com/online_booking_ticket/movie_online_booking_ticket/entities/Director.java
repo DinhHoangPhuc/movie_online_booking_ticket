@@ -1,33 +1,29 @@
 package com.online_booking_ticket.movie_online_booking_ticket.entities;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Document("Directors")
 public class Director {
 
     @Id
-    private int id;
+    private String id;
 
     private String Name;
 
-    private Date BirthDate;
+    private LocalDate BirthDate;
 
     private String Picture;
 
-    private int CountryID;
+    private String CountryID;
 
-    private List<Integer> movies;
+    private ArrayList<String> MovieIDs;
 
 }

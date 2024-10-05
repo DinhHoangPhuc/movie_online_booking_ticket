@@ -22,11 +22,10 @@ public class UserService {
         User user = new User();
         user.setName(registrationDto.getName());
         user.setEmail(registrationDto.getEmail());
-        user.setPhoneNumber(registrationDto.getPhoneNumber());
         user.setDateOfBirth(registrationDto.getDateOfBirth());
         user.setPassword(passwordEncoder.encode(registrationDto.getPassword()));
         userRepo.save(user);
-        return new RegisterResponseDTO(user.getName(), user.getEmail(), user.getPhoneNumber(), user.getDateOfBirth());
+        return new RegisterResponseDTO(user.getName(), user.getEmail(), user.getDateOfBirth());
     }
 
     // public ResponseEntity<?> login(UserLogin loginDto) {

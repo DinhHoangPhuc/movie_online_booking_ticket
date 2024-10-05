@@ -1,25 +1,20 @@
 package com.online_booking_ticket.movie_online_booking_ticket.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Document("Screens")
 public class Screen {
 
     @Id
-    private int id;
+    private String id;
 
-    private int CinemaID;
+    private String CinemaID;
 
     private int ScreenNumber;
 
@@ -27,7 +22,7 @@ public class Screen {
 
     private int TotalColumns;
 
-    private List<Integer> Showtimes;
+    private ArrayList<String> SeatIDs;
 
-    private List<Integer> Seats;
+    private ArrayList<String> ShowtimeIDs;
 }

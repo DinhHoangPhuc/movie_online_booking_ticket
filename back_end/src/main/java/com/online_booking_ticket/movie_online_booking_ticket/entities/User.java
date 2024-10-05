@@ -1,24 +1,20 @@
 package com.online_booking_ticket.movie_online_booking_ticket.entities;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Document("Users")
 public class User {
 
     @Id
-    private int id;
+    private String id;
 
     private String Name;
 
@@ -26,12 +22,8 @@ public class User {
 
     private String Password;
 
-    private String PhoneNumber;
+    private LocalDate DateOfBirth;
 
-    private Date DateOfBirth;
+    private ArrayList<String> AuthorityIDs;
 
-//    @JsonManagedReference
-//    private List<Booking> bookings;
-
-    private List<Integer> Authorities;
 }

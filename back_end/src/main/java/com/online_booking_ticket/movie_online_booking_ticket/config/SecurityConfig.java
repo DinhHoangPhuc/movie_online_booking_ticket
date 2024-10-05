@@ -1,5 +1,8 @@
 package com.online_booking_ticket.movie_online_booking_ticket.config;
 
+import com.online_booking_ticket.movie_online_booking_ticket.instant.ControllerPath;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,7 +39,7 @@ import java.util.Arrays;
 @EnableConfigurationProperties(RsaKeyProperties.class)
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SecurityConfig {
 
     private final RsaKeyProperties rsaKeyProperties;
@@ -55,6 +58,7 @@ public class SecurityConfig {
                 authorize.requestMatchers(HttpMethod.POST, "/customers").permitAll();
                 authorize.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
                 authorize.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
+                authorize.requestMatchers(HttpMethod.POST, ControllerPath.GENRE_CONTROLLER).permitAll();
                 authorize.requestMatchers("/error").permitAll();
                 authorize.anyRequest().authenticated();
             })

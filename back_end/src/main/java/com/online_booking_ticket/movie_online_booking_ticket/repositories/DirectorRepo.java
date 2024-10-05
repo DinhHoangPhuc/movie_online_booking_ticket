@@ -11,7 +11,7 @@ import com.online_booking_ticket.movie_online_booking_ticket.entities.Director;
 import com.online_booking_ticket.movie_online_booking_ticket.entities.Movie;
 
 @Repository
-public interface DirectorRepo extends MongoRepository<Director, Integer> {
+public interface DirectorRepo extends MongoRepository<Director, String> {
 
 //    @Query("SELECT m FROM Movie m WHERE m.director.id = :directorId")
 //    List<Movie> getMoviesByDirectorId(@Param("directorId") int directorId);

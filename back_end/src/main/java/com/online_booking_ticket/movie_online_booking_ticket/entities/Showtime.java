@@ -1,32 +1,23 @@
 package com.online_booking_ticket.movie_online_booking_ticket.entities;
 
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDateTime;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Document("Showtimes")
 public class Showtime {
 
     @Id
-    private int id;
+    private String id;
 
-    private int MovieID;
+    private String MovieID;
 
-    private int ScreenID;
+    private String ScreenID;
 
-    private List<Integer> Bookings;
+    private LocalDateTime StartTime;
 
-    private Date StartTime;
-
-    private Date EndTime;
+    private LocalDateTime EndTime;
 }

@@ -1,6 +1,8 @@
 package com.online_booking_ticket.movie_online_booking_ticket.sercurity;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import com.online_booking_ticket.movie_online_booking_ticket.repositories.AuthorityRepo;
@@ -23,10 +25,10 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getAuthorities()
-                    .stream()
-                    .map(authorityId -> new SecurityAuthority(authorityRepo.findById(authorityId).orElseThrow()))
-                    .collect(Collectors.toList());
+        return user.getAuthorityIDs()
+                .stream()
+                .map(authorityId -> new SecurityAuthority(authorityRepo.findById(authorityId).orElseThrow()))
+                .collect(Collectors.toList());
     }
 
     @Override

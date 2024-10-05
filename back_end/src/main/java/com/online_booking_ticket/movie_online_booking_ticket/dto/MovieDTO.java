@@ -1,19 +1,12 @@
-package com.online_booking_ticket.movie_online_booking_ticket.entities;
+package com.online_booking_ticket.movie_online_booking_ticket.dto;
+
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Document("Movies")
-public class Movie {
-
-    @Id
+public class MovieDTO {
     private String id;
 
     private String Title;

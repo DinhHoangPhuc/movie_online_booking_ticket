@@ -1,38 +1,26 @@
 package com.online_booking_ticket.movie_online_booking_ticket.entities;
 
-import java.util.Date;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @Document("Actors")
 public class Actor {
 
     @Id
-    private int id;
+    private String id;
 
     private String Name;
 
-    private Date BirthDate;
+    private LocalDate BirthDate;
 
     private String Picture;
 
-    private int CountryID;
+    private ArrayList<String> MovieIDs;
 
-    private List<Integer> Movies;
-
-//    @JsonBackReference
-//    private Country country;
-//
-//    @JsonBackReference
-//    private List<Movie> movies;
+    private String CountryID;
 }

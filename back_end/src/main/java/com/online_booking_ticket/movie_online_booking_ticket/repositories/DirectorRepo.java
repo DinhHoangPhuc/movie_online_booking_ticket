@@ -18,9 +18,9 @@ public interface DirectorRepo extends MongoRepository<Director, String> {
     // @Query("SELECT m FROM Movie m JOIN m.director d WHERE d.id = :directorId")
     // public List<Movie> findByDirectorId(int directorId);
 
-    @Aggregation(pipeline = {
-            "{ '$lookup': { 'from': 'movie', 'localField': 'Movies', 'foreignField': '_id', 'as': 'movies' } }",
-            "{ '$match': { 'movies._id': ?0 } }"
-    })
-    Optional<Director> findItemByMovieID(int movieId);
+//    @Aggregation(pipeline = {
+//            "{ '$lookup': { 'from': 'movie', 'localField': 'Movies', 'foreignField': '_id', 'as': 'movies' } }",
+//            "{ '$match': { 'movies._id': ?0 } }"
+//    })
+//    Optional<Director> findItemByMovieID(int movieId);
 }

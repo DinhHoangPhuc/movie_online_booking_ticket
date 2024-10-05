@@ -7,4 +7,6 @@ import lombok.experimental.FieldDefaults;
 public final class ControllerPath {
     public static final String GENRE_CONTROLLER = "/genres";
     public static final String COUNTRY_CONTROLLER = "/countries";
+    public static final String ACTOR_CONTROLLER = "/actors";
+    public static final String DIRECTOR_CONTROLLER = "/directors";
 }

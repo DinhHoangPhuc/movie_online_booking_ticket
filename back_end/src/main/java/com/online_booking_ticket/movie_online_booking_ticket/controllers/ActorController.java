@@ -1,37 +1,25 @@
-//package com.online_booking_ticket.movie_online_booking_ticket.controllers;
-//
-//import java.util.List;
-//
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//import com.online_booking_ticket.movie_online_booking_ticket.entities.Actor;
-//import com.online_booking_ticket.movie_online_booking_ticket.entities.Movie;
-//import com.online_booking_ticket.movie_online_booking_ticket.services.ActorService;
-//
-//import org.springframework.web.bind.annotation.GetMapping;
-//
-//
-//@RestController
-//public class ActorController {
-//
-//    @Autowired
-//    private ActorService actorService;
-//
-////    @GetMapping("/actors/{actorId}")
-////    public ResponseEntity<Actor> getActorById(@PathVariable int actorId) {
-////        return actorService.getActorById(actorId);
-////    }
-////
-////    @GetMapping("/actors/{actorId}/movies")
-////    public ResponseEntity<List<Movie>> getMoviesByActorId(@PathVariable int actorId) {
-////        return actorService.getMoviesByActorId(actorId);
-////    }
-//
-//    @GetMapping("/actors")
-//    public ResponseEntity<List<Actor>> getActors() {
-//        return ResponseEntity.ok(actorService.getActors());
-//    }
-//}
+package com.online_booking_ticket.movie_online_booking_ticket.controllers;
+
+import com.online_booking_ticket.movie_online_booking_ticket.dto.ActorRequest;
+import com.online_booking_ticket.movie_online_booking_ticket.dto.ActorResponse;
+import com.online_booking_ticket.movie_online_booking_ticket.instant.ControllerPath;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.online_booking_ticket.movie_online_booking_ticket.services.ActorService;
+
+
+@RestController
+@RequestMapping(ControllerPath.ACTOR_CONTROLLER)
+public class ActorController {
+
+    @Autowired
+    private ActorService actorService;
+
+    @PostMapping
+    public ResponseEntity<ActorResponse> addActor(@RequestBody ActorRequest actorRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(actorService.addActor(actorRequest));
+    }
+}

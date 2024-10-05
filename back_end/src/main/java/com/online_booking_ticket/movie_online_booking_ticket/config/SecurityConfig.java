@@ -48,18 +48,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
             .authorizeHttpRequests((authorize) -> {
-                authorize.requestMatchers( "/actors/**").permitAll();
-                authorize.requestMatchers("/directors/**").permitAll();
-                authorize.requestMatchers("/movies/**").permitAll();
-                authorize.requestMatchers( "/showtimes/**").permitAll();
                 authorize.requestMatchers("ws/**").permitAll();
                 authorize.requestMatchers("/app/seats").permitAll();
-                authorize.requestMatchers(HttpMethod.GET, "/customers").permitAll();
-                authorize.requestMatchers(HttpMethod.POST, "/customers").permitAll();
                 authorize.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
                 authorize.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
                 authorize.requestMatchers(HttpMethod.POST, ControllerPath.GENRE_CONTROLLER).permitAll();
                 authorize.requestMatchers(HttpMethod.POST, ControllerPath.COUNTRY_CONTROLLER).permitAll();
+                authorize.requestMatchers(HttpMethod.POST, ControllerPath.ACTOR_CONTROLLER).permitAll();
+                authorize.requestMatchers(HttpMethod.POST, ControllerPath.DIRECTOR_CONTROLLER).permitAll();
                 authorize.requestMatchers("/error").permitAll();
                 authorize.anyRequest().authenticated();
             })

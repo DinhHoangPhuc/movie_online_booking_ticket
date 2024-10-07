@@ -17,18 +17,18 @@ public interface MovieRepo extends MongoRepository<Movie, String> {
 //     Page<Movie> findAllWithShowTimes(Pageable pageable);
 
 //    @Query("SELECT DISTINCT m FROM Movie m JOIN m.showTimes st WHERE st.startTime IS NOT NULL")
-    @Aggregation(pipeline = {
-            "{ '$lookup': { 'from': 'Showtimes', 'localField': '_id', 'foreignField': 'MovieID', 'as': 'Showtimes' } }",
-            "{ '$match': { 'Showtimes': { '$ne': [] } } }"
-    })
-    List<MovieWithShowtime> findAllWithShowTimes();
+//    @Aggregation(pipeline = {
+//            "{ '$lookup': { 'from': 'Showtimes', 'localField': '_id', 'foreignField': 'MovieID', 'as': 'Showtimes' } }",
+//            "{ '$match': { 'Showtimes': { '$ne': [] } } }"
+//    })
+//    List<MovieWithShowtime> findAllWithShowTimes();
 
 //    @Query("SELECT m FROM Movie m WHERE m.showTimes IS EMPTY")
-    @Aggregation(pipeline = {
-            "{ '$lookup': { 'from': 'Showtimes', 'localField': '_id', 'foreignField': 'MovieID', 'as': 'Showtimes' } }",
-            "{ '$match': { 'Showtimes': { '$eq': [] } } }"
-    })
-    List<MovieWithShowtime> findAllWithoutShowtimes();
+//    @Aggregation(pipeline = {
+//            "{ '$lookup': { 'from': 'Showtimes', 'localField': '_id', 'foreignField': 'MovieID', 'as': 'Showtimes' } }",
+//            "{ '$match': { 'Showtimes': { '$eq': [] } } }"
+//    })
+//    List<MovieWithShowtime> findAllWithoutShowtimes();
 //
 //    @Query("SELECT d FROM Director d JOIN d.movies m WHERE m.id = :movieId")
 //    Director findDirectorByMovieId(@Param("movieId") int movieId);

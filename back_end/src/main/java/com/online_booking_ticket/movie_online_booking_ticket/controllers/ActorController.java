@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.online_booking_ticket.movie_online_booking_ticket.services.ActorService;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping(ControllerPath.ACTOR_CONTROLLER)
@@ -21,5 +23,10 @@ public class ActorController {
     @PostMapping
     public ResponseEntity<ActorResponse> addActor(@RequestBody ActorRequest actorRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(actorService.addActor(actorRequest));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ActorResponse>> getActors() {
+        return ResponseEntity.status(HttpStatus.OK).body(actorService.getActors());
     }
 }

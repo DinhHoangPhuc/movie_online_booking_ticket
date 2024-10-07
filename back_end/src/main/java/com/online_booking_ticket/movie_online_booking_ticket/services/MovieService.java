@@ -1,48 +1,48 @@
-//package com.online_booking_ticket.movie_online_booking_ticket.services;
-//
-//import java.util.List;
-//import java.util.stream.Collectors;
-//
-//import com.online_booking_ticket.movie_online_booking_ticket.dto.MovieById;
-//import com.online_booking_ticket.movie_online_booking_ticket.dto.MovieWithShowtime;
-//import com.online_booking_ticket.movie_online_booking_ticket.entities.Actor;
-//import com.online_booking_ticket.movie_online_booking_ticket.entities.Genre;
-//import com.online_booking_ticket.movie_online_booking_ticket.repositories.ActorRepo;
-//import com.online_booking_ticket.movie_online_booking_ticket.repositories.DirectorRepo;
-//import com.online_booking_ticket.movie_online_booking_ticket.repositories.GenreRepo;
-//import com.online_booking_ticket.movie_online_booking_ticket.repositories.MovieRepo;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.stereotype.Service;
-//
-//import com.online_booking_ticket.movie_online_booking_ticket.entities.Director;
-//import com.online_booking_ticket.movie_online_booking_ticket.entities.Movie;
-//
-//@Service
-//public class MovieService {
-//
-//    @Autowired
-//    MovieRepo movieRepo;
-//
-//    @Autowired
-//    DirectorRepo directorRepo;
-//
-//    @Autowired
-//    ActorRepo actorRepo;
-//
-//    @Autowired
-//    GenreRepo genreRepo;
-//
-//    public ResponseEntity<List<Movie>> getMovies() {
-//        try {
-//            return new ResponseEntity<>(movieRepo.findAll(), HttpStatus.OK);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            // return "Error occurred: " + e.getMessage();
-//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+package com.online_booking_ticket.movie_online_booking_ticket.services;
+
+import com.online_booking_ticket.movie_online_booking_ticket.dto.MovieRequest;
+import com.online_booking_ticket.movie_online_booking_ticket.dto.MovieResponse;
+import com.online_booking_ticket.movie_online_booking_ticket.entities.Actor;
+import com.online_booking_ticket.movie_online_booking_ticket.entities.Director;
+import com.online_booking_ticket.movie_online_booking_ticket.entities.Genre;
+import com.online_booking_ticket.movie_online_booking_ticket.mapper.MovieMapper;
+import com.online_booking_ticket.movie_online_booking_ticket.repositories.ActorRepo;
+import com.online_booking_ticket.movie_online_booking_ticket.repositories.DirectorRepo;
+import com.online_booking_ticket.movie_online_booking_ticket.repositories.GenreRepo;
+import com.online_booking_ticket.movie_online_booking_ticket.repositories.MovieRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.online_booking_ticket.movie_online_booking_ticket.entities.Movie;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+public class MovieService {
+
+    @Autowired
+    MovieRepo movieRepo;
+
+    @Autowired
+    DirectorRepo directorRepo;
+
+    @Autowired
+    ActorRepo actorRepo;
+
+    @Autowired
+    GenreRepo genreRepo;
+
+    @Autowired
+    private MovieMapper movieMapper;
+
+    public List<MovieResponse> getMovies() {
+        List<Movie> movies = movieRepo.findAll();
+        List<MovieResponse> movieResponses = movies.stream()
+                .map(movieMapper::movieToMovieResponse)
+                .toList();
+        return movieResponses;
+    }
 //
 //    // public ResponseEntity<Page<Movie>> getMoviesWithShowTimes(int page, int size) {
 //    //     try {
@@ -119,17 +119,36 @@
 //            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
 //        }
 //    }
-//
-//    public ResponseEntity<Movie> addMovie(Movie movie) {
-//        try {
-//            return new ResponseEntity<Movie>(movieRepo.save(movie), HttpStatus.CREATED);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            // return "Error occurred: " + e.getMessage();
-//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-//
+
+    @Transactional
+    public MovieResponse addMovie(MovieRequest movieRequest) {
+        // Convert MovieRequest to Movie entity
+        Movie movie = movieMapper.movieRequestToMovie(movieRequest);
+
+        // Save the movie entity
+        Movie savedMovie = movieRepo.save(movie);
+
+        // Add movie ID to Director
+        Director director = directorRepo.findById(movie.getDirectorID()).orElseThrow(() -> new RuntimeException("Director not found"));
+        director.getMovieIDs().add(savedMovie.getId());
+        directorRepo.save(director);
+
+        // Add movie ID to Actors
+        for (String actorID : movie.getActorIDs()) {
+            Actor actor = actorRepo.findById(actorID).orElseThrow(() -> new RuntimeException("Actor not found"));
+            actor.getMovieIDs().add(savedMovie.getId());
+            actorRepo.save(actor);
+        }
+
+        // Add movie ID to Genre
+        Genre genre = genreRepo.findById(movie.getGenreID()).orElseThrow(() -> new RuntimeException("Genre not found"));
+        genre.getMovieIDs().add(savedMovie.getId());
+        genreRepo.save(genre);
+
+        // Convert saved Movie entity to MovieResponse
+        return movieMapper.movieToMovieResponse(savedMovie);
+    }
+
 //    public ResponseEntity<Movie> updateMovie(Movie movie) {
 //        try {
 //            return new ResponseEntity<Movie>(movieRepo.save(movie), HttpStatus.OK);
@@ -150,4 +169,4 @@
 //            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 //        }
 //    }
-//}
+}

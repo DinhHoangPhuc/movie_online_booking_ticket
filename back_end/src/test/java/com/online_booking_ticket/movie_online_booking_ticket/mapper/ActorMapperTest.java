@@ -31,6 +31,8 @@ class ActorMapperTest {
         assertThat(actor.getBirthDate()).isEqualTo(LocalDate.of(1990, 1, 1));
         assertThat(actor.getPicture()).isEqualTo("picture_url");
         assertThat(actor.getCountryID()).isEqualTo("country_id");
+        assertThat(actor.getMovieIDs()).isNotNull();
+        assertThat(actor.getMovieIDs()).isEmpty();
     }
 
     @Test

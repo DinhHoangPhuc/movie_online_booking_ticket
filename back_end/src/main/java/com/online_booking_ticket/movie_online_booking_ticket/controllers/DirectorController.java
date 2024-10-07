@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.online_booking_ticket.movie_online_booking_ticket.services.DirectorService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(ControllerPath.DIRECTOR_CONTROLLER)
 public class DirectorController {
@@ -20,5 +22,10 @@ public class DirectorController {
     @PostMapping
     public ResponseEntity<DirectorResponse> addDirector(@RequestBody DirectorRequest directorRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(directorService.addDirector(directorRequest));
+    }
+
+    @GetMapping
+    public ResponseEntity<List<DirectorResponse>> getDirectors() {
+        return ResponseEntity.status(HttpStatus.OK).body(directorService.getDirectors());
     }
 }

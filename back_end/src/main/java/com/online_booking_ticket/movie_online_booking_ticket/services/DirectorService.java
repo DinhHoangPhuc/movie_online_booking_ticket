@@ -8,6 +8,9 @@ import com.online_booking_ticket.movie_online_booking_ticket.repositories.Direct
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class DirectorService {
 
@@ -20,5 +23,16 @@ public class DirectorService {
     public DirectorResponse addDirector(DirectorRequest directorRequest) {
         Director director = directorMapper.directorRequestToDirector(directorRequest);
         return directorMapper.directorToDirectorResponse(directorRepo.save(director));
+    }
+
+    public List<DirectorResponse> getDirectors() {
+        List<Director> directors = directorRepo.findAll();
+        List<DirectorResponse> directorResponses = new ArrayList<>();
+
+        for (Director director : directors) {
+            directorResponses.add(directorMapper.directorToDirectorResponse(director));
+        }
+
+        return directorResponses;
     }
 }

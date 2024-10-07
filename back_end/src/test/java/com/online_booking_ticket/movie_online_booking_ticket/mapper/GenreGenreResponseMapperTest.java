@@ -6,6 +6,8 @@ import com.online_booking_ticket.movie_online_booking_ticket.entities.Genre;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 public class GenreGenreResponseMapperTest {
 
 
@@ -29,5 +31,7 @@ public class GenreGenreResponseMapperTest {
         Genre genre = genreGenreResponseMapper.genreRequestToGenre(genreRequest);
 
         assert genre.getName().equals("Action");
+        assertThat(genre.getMovieIDs()).isNotNull();
+        assertThat(genre.getMovieIDs()).isEmpty();
     }
 }

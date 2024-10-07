@@ -9,6 +9,7 @@ import org.mapstruct.factory.Mappers;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DirectorMapperTest {
@@ -32,6 +33,8 @@ class DirectorMapperTest {
         assertEquals(director.getBirthDate(), directorRequest.getBirthDate());
         assertEquals(director.getPicture(), directorRequest.getPicture());
         assertEquals(director.getCountryID(), directorRequest.getCountryID());
+        assertThat(director.getMovieIDs()).isNotNull();
+        assertThat(director.getMovieIDs()).isEmpty();
     }
 
     @Test

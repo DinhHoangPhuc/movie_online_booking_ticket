@@ -129,6 +129,31 @@ public class MovieService {
 //    }
 
     @Transactional
+    public boolean deleteMovie(String id) {
+        Movie movie = movieRepo.findById(id).orElseThrow(() -> new RuntimeException("Movie not found"));
+
+        // Remove movie ID from Director
+        Director director = directorRepo.findById(movie.getDirectorID()).orElseThrow(() -> new RuntimeException("Director not found"));
+        director.getMovieIDs().remove(movie.getId());
+        directorRepo.save(director);
+
+        // Remove movie ID from Actors
+        for (String actorID : movie.getActorIDs()) {
+            Actor actor = actorRepo.findById(actorID).orElseThrow(() -> new RuntimeException("Actor not found"));
+            actor.getMovieIDs().remove(movie.getId());
+            actorRepo.save(actor);
+        }
+
+        // Remove movie ID from Genre
+        Genre genre = genreRepo.findById(movie.getGenreID()).orElseThrow(() -> new RuntimeException("Genre not found"));
+        genre.getMovieIDs().remove(movie.getId());
+        genreRepo.save(genre);
+
+        movieRepo.deleteById(id);
+        return true;
+    }
+
+    @Transactional
     public MovieResponse addMovie(MovieRequest movieRequest) {
         // Convert MovieRequest to Movie entity
         Movie movie = movieMapper.movieRequestToMovie(movieRequest);

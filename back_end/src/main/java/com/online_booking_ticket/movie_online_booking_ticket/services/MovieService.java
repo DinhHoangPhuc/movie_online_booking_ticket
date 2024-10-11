@@ -11,15 +11,23 @@ import com.online_booking_ticket.movie_online_booking_ticket.repositories.Direct
 import com.online_booking_ticket.movie_online_booking_ticket.repositories.GenreRepo;
 import com.online_booking_ticket.movie_online_booking_ticket.repositories.MovieRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.online_booking_ticket.movie_online_booking_ticket.entities.Movie;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class MovieService {
+
+    @Autowired
+    MongoTemplate mongoTemplate;
 
     @Autowired
     MovieRepo movieRepo;
@@ -148,6 +156,122 @@ public class MovieService {
         // Convert saved Movie entity to MovieResponse
         return movieMapper.movieToMovieResponse(savedMovie);
     }
+
+    @Transactional
+    public MovieResponse updateMovie(String id, MovieRequest movieRequest) {
+        Movie movie = movieRepo.findById(id).orElseThrow(() -> new RuntimeException("Movie not found"));
+
+        Movie oldMovie = new Movie();
+        oldMovie.setId(movie.getId());
+        oldMovie.setDirectorID(movie.getDirectorID());
+        oldMovie.setActorIDs(new ArrayList<>(movie.getActorIDs()));
+        oldMovie.setGenreID(movie.getGenreID());
+
+        // Update movie properties
+        movie.setTitle(movieRequest.getTitle());
+        movie.setDirectorID(movieRequest.getDirectorID());
+        movie.setActorIDs(movieRequest.getActorIDs());
+        movie.setGenreID(movieRequest.getGenreID());
+        movie.setDuration(movieRequest.getDuration());
+        movie.setReleaseDate(movieRequest.getReleaseDate());
+        movie.setDescription(movieRequest.getDescription());
+        movie.setPosterURL(movieRequest.getPosterURL());
+        movie.setTrailerURL(movieRequest.getTrailerURL());
+        movie.setCountryID(movieRequest.getCountryID());
+
+        // Save the updated movie
+        Movie updatedMovie = movieRepo.save(movie);
+
+        // Split the reference update into separate transactions
+        removeOldReferences(updatedMovie, oldMovie);  // Remove old references
+        addNewReferences(updatedMovie);  // Add new references
+
+        return movieMapper.movieToMovieResponse(updatedMovie);
+    }
+
+//    @Transactional
+    public void removeOldReferences(Movie newMovie, Movie oldMovie) {
+        if (oldMovie != null) {
+            // Remove old Director reference
+            if (!newMovie.getDirectorID().equals(oldMovie.getDirectorID())) {
+                Query oldDirectorQuery = new Query(Criteria.where("_id").is(oldMovie.getDirectorID()));
+                Update removeOldDirectorUpdate = new Update().pull("MovieIDs", oldMovie.getId());
+                mongoTemplate.updateFirst(oldDirectorQuery, removeOldDirectorUpdate, Director.class);
+            }
+
+            // Remove old Actor references
+            for (String oldActorID : oldMovie.getActorIDs()) {
+                if (!newMovie.getActorIDs().contains(oldActorID)) {
+                    Query oldActorQuery = new Query(Criteria.where("_id").is(oldActorID));
+                    Update removeOldActorUpdate = new Update().pull("MovieIDs", oldMovie.getId());
+                    mongoTemplate.updateFirst(oldActorQuery, removeOldActorUpdate, Actor.class);
+                }
+            }
+
+            // Remove old Genre reference
+            if (!newMovie.getGenreID().equals(oldMovie.getGenreID())) {
+                Query oldGenreQuery = new Query(Criteria.where("_id").is(oldMovie.getGenreID()));
+                Update removeOldGenreUpdate = new Update().pull("MovieIDs", oldMovie.getId());
+                mongoTemplate.updateFirst(oldGenreQuery, removeOldGenreUpdate, Genre.class);
+            }
+        }
+    }
+
+//    @Transactional
+    public void addNewReferences(Movie newMovie) {
+        // Add new Director reference
+        Query newDirectorQuery = new Query(Criteria.where("_id").is(newMovie.getDirectorID()));
+        Update addNewDirectorUpdate = new Update().addToSet("MovieIDs", newMovie.getId());
+        mongoTemplate.updateFirst(newDirectorQuery, addNewDirectorUpdate, Director.class);
+
+        // Add new Actor references
+        for (String newActorID : newMovie.getActorIDs()) {
+            Query newActorQuery = new Query(Criteria.where("_id").is(newActorID));
+            Update addNewActorUpdate = new Update().addToSet("MovieIDs", newMovie.getId());
+            mongoTemplate.updateFirst(newActorQuery, addNewActorUpdate, Actor.class);
+        }
+
+        // Add new Genre reference
+        Query newGenreQuery = new Query(Criteria.where("_id").is(newMovie.getGenreID()));
+        Update addNewGenreUpdate = new Update().addToSet("MovieIDs", newMovie.getId());
+        mongoTemplate.updateFirst(newGenreQuery, addNewGenreUpdate, Genre.class);
+    }
+
+
+//    public void updateReferences(Movie newMovie, Movie oldMovie) {
+//        if (oldMovie != null) {
+//            // Remove old references
+//            Director oldDirector = directorRepo.findById(oldMovie.getDirectorID()).orElseThrow(() -> new RuntimeException("Old Director not found"));
+//            oldDirector.getMovieIDs().remove(oldMovie.getId());
+//            directorRepo.save(oldDirector);
+//
+//            for (String actorID : oldMovie.getActorIDs()) {
+//                Actor oldActor = actorRepo.findById(actorID).orElseThrow(() -> new RuntimeException("Old Actor not found"));
+//                oldActor.getMovieIDs().remove(oldMovie.getId());
+//                actorRepo.save(oldActor);
+//            }
+//
+//            Genre oldGenre = genreRepo.findById(oldMovie.getGenreID()).orElseThrow(() -> new RuntimeException("Old Genre not found"));
+//            oldGenre.getMovieIDs().remove(oldMovie.getId());
+//            genreRepo.save(oldGenre);
+//        }
+//
+//        // Add new references
+//        Director newDirector = directorRepo.findById(newMovie.getDirectorID()).orElseThrow(() -> new RuntimeException("New Director not found"));
+//        newDirector.getMovieIDs().add(newMovie.getId());
+//        directorRepo.save(newDirector);
+//
+//        for (String actorID : newMovie.getActorIDs()) {
+//            Actor newActor = actorRepo.findById(actorID).orElseThrow(() -> new RuntimeException("New Actor not found"));
+//            newActor.getMovieIDs().add(newMovie.getId());
+//            actorRepo.save(newActor);
+//        }
+//
+//        Genre newGenre = genreRepo.findById(newMovie.getGenreID()).orElseThrow(() -> new RuntimeException("New Genre not found"));
+//        newGenre.getMovieIDs().add(newMovie.getId());
+//        genreRepo.save(newGenre);
+//    }
+
 
 //    public ResponseEntity<Movie> updateMovie(Movie movie) {
 //        try {

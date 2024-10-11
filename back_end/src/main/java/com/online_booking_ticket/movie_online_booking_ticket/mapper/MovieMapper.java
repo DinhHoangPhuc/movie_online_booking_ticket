@@ -64,7 +64,8 @@ public class MovieMapper {
         movieResponse.setDescription(movie.getDescription());
         movieResponse.setPosterURL(movie.getPosterURL());
         movieResponse.setTrailerURL(movie.getTrailerURL());
-        movieResponse.setDirector(mapDirectorToResponse(mapDirector(movie.getDirectorID())));
+        Director director = mapDirector(movie.getDirectorID());
+        movieResponse.setDirector(mapDirectorToResponse(director));
         movieResponse.setActors(mapActorsToResponse(mapActors(movie.getActorIDs())));
         movieResponse.setCountry(mapCountryToResponse(mapCountry(movie.getCountryID())));
         movieResponse.setGenre(mapGenreToResponse(mapGenre(movie.getGenreID())));

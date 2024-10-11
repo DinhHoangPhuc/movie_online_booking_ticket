@@ -65,6 +65,7 @@ public class SecurityConfig {
                 authorize.requestMatchers(HttpMethod.GET, ControllerPath.DIRECTOR_CONTROLLER).permitAll();
                 authorize.requestMatchers(HttpMethod.POST, ControllerPath.MOVIE_CONTROLLER).permitAll();
                 authorize.requestMatchers(HttpMethod.GET, ControllerPath.MOVIE_CONTROLLER).permitAll();
+                authorize.requestMatchers(HttpMethod.PUT, ControllerPath.MOVIE_CONTROLLER_PUT).permitAll();
                 authorize.requestMatchers("/error").permitAll();
                 authorize.anyRequest().authenticated();
             })

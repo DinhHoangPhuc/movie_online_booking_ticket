@@ -110,4 +110,170 @@ class MovieServiceTest {
         verify(actorRepo, times(1)).save(actor2);
         verify(genreRepo, times(1)).save(genre);
     }
+
+    @Test
+    void updateMovie() {
+        MovieRequest movieRequest = new MovieRequest();
+        movieRequest.setTitle("Updated Movie");
+        movieRequest.setDirectorID("newDirectorId");
+        movieRequest.setActorIDs(new ArrayList<>(List.of("newActorId1", "newActorId2")));
+        movieRequest.setGenreID("newGenreId");
+
+        Movie oldMovie = new Movie();
+        oldMovie.setId("movieId");
+        oldMovie.setTitle("Old Movie");
+        oldMovie.setDirectorID("oldDirectorId");
+        oldMovie.setActorIDs(new ArrayList<>(List.of("oldActorId1", "oldActorId2")));
+        oldMovie.setGenreID("oldGenreId");
+
+        Movie updatedMovie = new Movie();
+        updatedMovie.setId("movieId");
+        updatedMovie.setTitle("Updated Movie");
+        updatedMovie.setDirectorID("newDirectorId");
+        updatedMovie.setActorIDs(new ArrayList<>(List.of("newActorId1", "newActorId2")));
+        updatedMovie.setGenreID("newGenreId");
+
+        MovieResponse movieResponse = new MovieResponse();
+        movieResponse.setId("movieId");
+        movieResponse.setTitle("Updated Movie");
+
+        Director oldDirector = new Director();
+        oldDirector.setId("oldDirectorId");
+        oldDirector.setMovieIDs(new ArrayList<>());
+
+        Director newDirector = new Director();
+        newDirector.setId("newDirectorId");
+        newDirector.setMovieIDs(new ArrayList<>());
+
+        Actor oldActor1 = new Actor();
+        oldActor1.setId("oldActorId1");
+        oldActor1.setMovieIDs(new ArrayList<>());
+
+        Actor oldActor2 = new Actor();
+        oldActor2.setId("oldActorId2");
+        oldActor2.setMovieIDs(new ArrayList<>());
+
+        Actor newActor1 = new Actor();
+        newActor1.setId("newActorId1");
+        newActor1.setMovieIDs(new ArrayList<>());
+
+        Actor newActor2 = new Actor();
+        newActor2.setId("newActorId2");
+        newActor2.setMovieIDs(new ArrayList<>());
+
+        Genre oldGenre = new Genre();
+        oldGenre.setId("oldGenreId");
+        oldGenre.setMovieIDs(new ArrayList<>());
+
+        Genre newGenre = new Genre();
+        newGenre.setId("newGenreId");
+        newGenre.setMovieIDs(new ArrayList<>());
+
+        when(movieRepo.findById("movieId")).thenReturn(Optional.of(oldMovie));
+        when(movieRepo.save(any(Movie.class))).thenReturn(updatedMovie);
+        when(movieMapper.movieToMovieResponse(any(Movie.class))).thenReturn(movieResponse);
+
+        when(directorRepo.findById("oldDirectorId")).thenReturn(Optional.of(oldDirector));
+        when(directorRepo.findById("newDirectorId")).thenReturn(Optional.of(newDirector));
+        when(actorRepo.findById("oldActorId1")).thenReturn(Optional.of(oldActor1));
+        when(actorRepo.findById("oldActorId2")).thenReturn(Optional.of(oldActor2));
+        when(actorRepo.findById("newActorId1")).thenReturn(Optional.of(newActor1));
+        when(actorRepo.findById("newActorId2")).thenReturn(Optional.of(newActor2));
+        when(genreRepo.findById("oldGenreId")).thenReturn(Optional.of(oldGenre));
+        when(genreRepo.findById("newGenreId")).thenReturn(Optional.of(newGenre));
+
+        MovieResponse result = movieService.updateMovie("movieId", movieRequest);
+
+        assertThat(result).isNotNull();
+        assertThat(result.getId()).isEqualTo("movieId");
+        assertThat(result.getTitle()).isEqualTo("Updated Movie");
+
+        verify(movieRepo, times(1)).findById("movieId");
+        verify(movieRepo, times(1)).save(any(Movie.class));
+        verify(directorRepo, times(1)).findById("oldDirectorId");
+        verify(directorRepo, times(1)).findById("newDirectorId");
+        verify(actorRepo, times(1)).findById("oldActorId1");
+        verify(actorRepo, times(1)).findById("oldActorId2");
+        verify(actorRepo, times(1)).findById("newActorId1");
+        verify(actorRepo, times(1)).findById("newActorId2");
+        verify(genreRepo, times(1)).findById("oldGenreId");
+        verify(genreRepo, times(1)).findById("newGenreId");
+    }
+
+    @Test
+    void updateReferences() {
+        Movie newMovie = new Movie();
+        newMovie.setId("movieId");
+        newMovie.setDirectorID("newDirectorId");
+        newMovie.setActorIDs(new ArrayList<>(List.of("newActorId1", "newActorId2")));
+        newMovie.setGenreID("newGenreId");
+
+        Movie oldMovie = new Movie();
+        oldMovie.setId("movieId");
+        oldMovie.setDirectorID("oldDirectorId");
+        oldMovie.setActorIDs(new ArrayList<>(List.of("oldActorId1", "oldActorId2")));
+        oldMovie.setGenreID("oldGenreId");
+
+        Director oldDirector = new Director();
+        oldDirector.setId("oldDirectorId");
+        oldDirector.setMovieIDs(new ArrayList<>(List.of("movieId")));
+
+        Director newDirector = new Director();
+        newDirector.setId("newDirectorId");
+        newDirector.setMovieIDs(new ArrayList<>());
+
+        Actor oldActor1 = new Actor();
+        oldActor1.setId("oldActorId1");
+        oldActor1.setMovieIDs(new ArrayList<>(List.of("movieId")));
+
+        Actor oldActor2 = new Actor();
+        oldActor2.setId("oldActorId2");
+        oldActor2.setMovieIDs(new ArrayList<>(List.of("movieId")));
+
+        Actor newActor1 = new Actor();
+        newActor1.setId("newActorId1");
+        newActor1.setMovieIDs(new ArrayList<>());
+
+        Actor newActor2 = new Actor();
+        newActor2.setId("newActorId2");
+        newActor2.setMovieIDs(new ArrayList<>());
+
+        Genre oldGenre = new Genre();
+        oldGenre.setId("oldGenreId");
+        oldGenre.setMovieIDs(new ArrayList<>(List.of("movieId")));
+
+        Genre newGenre = new Genre();
+        newGenre.setId("newGenreId");
+        newGenre.setMovieIDs(new ArrayList<>());
+
+        when(directorRepo.findById("oldDirectorId")).thenReturn(Optional.of(oldDirector));
+        when(directorRepo.findById("newDirectorId")).thenReturn(Optional.of(newDirector));
+        when(actorRepo.findById("oldActorId1")).thenReturn(Optional.of(oldActor1));
+        when(actorRepo.findById("oldActorId2")).thenReturn(Optional.of(oldActor2));
+        when(actorRepo.findById("newActorId1")).thenReturn(Optional.of(newActor1));
+        when(actorRepo.findById("newActorId2")).thenReturn(Optional.of(newActor2));
+        when(genreRepo.findById("oldGenreId")).thenReturn(Optional.of(oldGenre));
+        when(genreRepo.findById("newGenreId")).thenReturn(Optional.of(newGenre));
+
+        movieService.updateReferences(newMovie, oldMovie);
+
+        verify(directorRepo, times(1)).findById("oldDirectorId");
+        verify(directorRepo, times(1)).findById("newDirectorId");
+        verify(directorRepo, times(1)).save(oldDirector);
+        verify(directorRepo, times(1)).save(newDirector);
+
+        verify(actorRepo, times(1)).findById("oldActorId1");
+        verify(actorRepo, times(1)).findById("oldActorId2");
+        verify(actorRepo, times(1)).findById("newActorId1");
+        verify(actorRepo, times(1)).findById("newActorId2");
+        verify(actorRepo, times(1)).save(oldActor1);
+        verify(actorRepo, times(1)).save(oldActor2);
+        verify(actorRepo, times(1)).save(newActor1);
+        verify(actorRepo, times(1)).save(newActor2);
+
+        verify(genreRepo, times(1)).findById("oldGenreId");
+        verify(genreRepo, times(1)).findById("newGenreId");
+        verify(genreRepo, times(1)).save(oldGenre);
+        verify(genreRepo, times(1)).save(newGenre);
+    }
 }

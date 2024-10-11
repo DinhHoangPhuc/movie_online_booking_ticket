@@ -29,4 +29,9 @@ public class MovieController {
         return ResponseEntity.status(HttpStatus.OK).body(movieService.getMovies());
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<MovieResponse> updateMovie(@PathVariable String id, @RequestBody MovieRequest movieRequest) {
+        return ResponseEntity.status(HttpStatus.OK).body(movieService.updateMovie(id, movieRequest));
+    }
+
 }

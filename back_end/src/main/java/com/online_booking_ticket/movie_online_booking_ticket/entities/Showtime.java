@@ -1,6 +1,7 @@
 package com.online_booking_ticket.movie_online_booking_ticket.entities;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -17,7 +18,9 @@ public class Showtime {
 
     private String ScreenID;
 
-    private LocalDateTime StartTime;
+    private LocalDate Date;
 
-    private LocalDateTime EndTime;
+    private LocalTime StartTime;
+
+    private LocalTime EndTime;
 }

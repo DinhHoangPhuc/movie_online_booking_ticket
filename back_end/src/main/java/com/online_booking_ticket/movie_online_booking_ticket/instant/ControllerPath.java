@@ -12,6 +12,8 @@ public final class ControllerPath {
     public static final String MOVIE_CONTROLLER = "/movies";
     public static final String MOVIE_CONTROLLER_PUT = MOVIE_CONTROLLER + "/{id}";
     public static final String MOVIE_CONTROLLER_DELETE = MOVIE_CONTROLLER + "/{id}";
+    public static final String CINEMA_CONTROLLER = "/cinemas";
+    public static final String SCREEN_CONTROLLER = "/screens";
 
     public static final String[] PUBLIC_ENDPOINTS = {GENRE_CONTROLLER, COUNTRY_CONTROLLER, ACTOR_CONTROLLER, DIRECTOR_CONTROLLER, MOVIE_CONTROLLER};
 }

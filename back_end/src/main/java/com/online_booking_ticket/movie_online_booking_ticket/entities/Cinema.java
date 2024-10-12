@@ -18,7 +18,13 @@ public class Cinema {
 
     private String Location;
 
-    private String TotalScreens;
+    private int PhoneNumber;
+
+    private String Description;
+
+    private ArrayList<String> ImageURLs;
+
+    private int TotalScreens;
 
     private ArrayList<String> ScreenIDs;
 }

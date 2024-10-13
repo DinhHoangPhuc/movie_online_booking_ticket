@@ -1,48 +1,34 @@
-//package com.online_booking_ticket.movie_online_booking_ticket.controllers;
-//
-//import java.util.List;
-//
-//import com.online_booking_ticket.movie_online_booking_ticket.dto.ScreenByShowtime;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.RestController;
-//
-//import com.online_booking_ticket.movie_online_booking_ticket.entities.Seat;
-//import com.online_booking_ticket.movie_online_booking_ticket.entities.Showtime;
-//import com.online_booking_ticket.movie_online_booking_ticket.services.ShowtimeService;
-//
-//@RestController
-//public class ShowtimeController {
-//
-//    @Autowired
-//    private ShowtimeService showtimeService;
-//
-//    // @GetMapping("/showtimes/{showtimeid}/cinema")
-//    // public ResponseEntity<Showtime> getCinema(@PathVariable int showtimeid) {
-//    //     return showtimeService.findCinemasByShowtime(showtimeid);
-//    //     // return null;
-//    // }
-//
-//    @GetMapping("/showtimes/{showtimeid}/cinema")
-//    public ResponseEntity<CinemaByShowtimeId> getCinemaByShowtimeId(@PathVariable int showtimeid) {
-//        return showtimeService.findCinemasByShowtime(showtimeid);
-//        // return null;
-//    }
-//
-//    @GetMapping("/showtimes")
-//    public ResponseEntity<List<Showtime>> getShowtimes() {
-//        return showtimeService.getShowtimes();
-//    }
-//
-//    @GetMapping("/showtimes/{showtimeid}/seats")
-//    public ResponseEntity<List<Seat>> getSeatsByShowtimeId(@PathVariable int showtimeid) {
-//        return showtimeService.findSeatsByShowtime(showtimeid);
-//    }
-//
-//    @GetMapping("/showtimes/{showtimeId}/screen")
-//    public ResponseEntity<ScreenByShowtime> getScreenByShowtimeId(@PathVariable int showtimeId) {
-//        return showtimeService.findScreenByShowtime(showtimeId);
-//    }
-//}
+package com.online_booking_ticket.movie_online_booking_ticket.controllers;
+
+import com.online_booking_ticket.movie_online_booking_ticket.dto.ShowTimeRequest;
+import com.online_booking_ticket.movie_online_booking_ticket.dto.ShowTimeResponse;
+import com.online_booking_ticket.movie_online_booking_ticket.instant.ControllerPath;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.online_booking_ticket.movie_online_booking_ticket.services.ShowtimeService;
+
+import java.util.ArrayList;
+
+@RestController
+@RequestMapping(ControllerPath.SHOWTIME_CONTROLLER)
+public class ShowtimeController {
+
+    @Autowired
+    private ShowtimeService showtimeService;
+
+    @PostMapping
+    public ResponseEntity<ShowTimeResponse> addShowtime(@RequestBody @Valid ShowTimeRequest showTimeRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(showtimeService.addShowtime(showTimeRequest));
+    }
+
+    @GetMapping
+    public ResponseEntity<ArrayList<ShowTimeResponse>> getAllShowtimes() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(showtimeService.getAllShowtimes());
+    }
+}

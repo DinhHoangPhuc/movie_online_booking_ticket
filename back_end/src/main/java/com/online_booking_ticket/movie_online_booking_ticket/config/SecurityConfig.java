@@ -68,7 +68,10 @@ public class SecurityConfig {
                 authorize.requestMatchers(HttpMethod.PUT, ControllerPath.MOVIE_CONTROLLER_PUT).permitAll();
                 authorize.requestMatchers(HttpMethod.DELETE, ControllerPath.MOVIE_CONTROLLER_DELETE).permitAll();
                 authorize.requestMatchers(HttpMethod.POST, ControllerPath.CINEMA_CONTROLLER).permitAll();
+                authorize.requestMatchers(HttpMethod.GET, ControllerPath.CINEMA_CONTROLLER).permitAll();
                 authorize.requestMatchers(HttpMethod.POST, ControllerPath.SCREEN_CONTROLLER).permitAll();
+                authorize.requestMatchers(HttpMethod.POST, ControllerPath.SHOWTIME_CONTROLLER).permitAll();
+                authorize.requestMatchers(HttpMethod.GET, ControllerPath.SHOWTIME_CONTROLLER).permitAll();
                 authorize.requestMatchers("/error").permitAll();
                 authorize.anyRequest().authenticated();
             })

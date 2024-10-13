@@ -20,5 +20,5 @@ public class CinemaResponse {
 
     private int TotalScreens;
 
-    private ArrayList<String> ScreenIDs;
+    private ArrayList<ScreenInCinemaResponse> Screens;
 }

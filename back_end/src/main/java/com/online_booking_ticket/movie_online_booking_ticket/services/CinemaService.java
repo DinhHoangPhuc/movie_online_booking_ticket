@@ -16,11 +16,23 @@ public class CinemaService {
     @Autowired
     private CinemaRepo cinemaRepo;
 
+    @Autowired
+    private CinemaMapper cinemaMapper;
+
+
     public CinemaResponse addCinema(CinemaRequest cinemaRequest) {
-        Cinema cinema = CinemaMapper.toCinema(cinemaRequest);
+        Cinema cinema = cinemaMapper.toCinema(cinemaRequest);
         cinema.setScreenIDs(new ArrayList<>());
         cinema.setTotalScreens(0);
 
-        return CinemaMapper.toCinemaResponse(cinemaRepo.save(cinema));
+        return cinemaMapper.toCinemaResponse(cinemaRepo.save(cinema));
+    }
+
+    public ArrayList<CinemaResponse> getAllCinemas() {
+        ArrayList<CinemaResponse> cinemaResponses = new ArrayList<>();
+        for (Cinema cinema : cinemaRepo.findAll()) {
+            cinemaResponses.add(cinemaMapper.toCinemaResponse(cinema));
+        }
+        return cinemaResponses;
     }
 }
